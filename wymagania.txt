@@ -1,0 +1,11 @@
+1. normalne ls
+2. opcja -l
+3. opcja -r
+
+
+4. trzy inne opcje z prawdziwego ls
+-
+-
+-
+
+5. mozliwosc wywolania w dowolnym katalogu
