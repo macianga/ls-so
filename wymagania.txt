@@ -4,8 +4,8 @@
 
 
 4. trzy inne opcje z prawdziwego ls
--
--
--
+- f do no sort
+- g do not list owner/ works like l
+- m print with commas
 
 5. mozliwosc wywolania w dowolnym katalogu

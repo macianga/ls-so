@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <grp.h>
+#include <algorithm>
 
 struct fileInfo
 {
@@ -15,6 +16,7 @@ struct fileInfo
     std::string fileName;
 };
 
+
 namespace fileInfoFunctions
 {
 
@@ -24,6 +26,11 @@ namespace fileInfoFunctions
         stat(path, &attr);
         //printf("Last modified time: %s", ctime(&attr.st_mtime));
         std::string temp = ctime(&attr.st_mtime);
+        return temp.erase(temp.length() - 1);
+        if (!temp.empty() && temp[temp.length() - 1] == '\n')
+        {
+            temp.erase(temp.length() - 1);
+        }
         return temp;
     }
 
@@ -93,8 +100,47 @@ namespace fileInfoFunctions
         info.owner = getFileOwner(path);
         info.permissions = getFilePermissions(path);
         info.size = attr.st_size;
+        //TODO size is always the same
 
         return info;
+    }
+
+
+    std::string fileInfo_toString(fileInfo info)
+    {
+        std::string str = "";
+        str += info.permissions;
+        str += " ";
+        str += std::to_string(info.link);
+        str += " ";
+        str += info.owner;
+        str += " ";
+        str += info.groupOwner;
+        str += " ";
+        str += std::to_string(info.size);
+        str += "   ";
+        str += info.dateModified;
+        str += " ";
+
+
+        return str;
+    }
+
+
+        std::string fileInfo_toString_noOwner(fileInfo info)
+    {
+        std::string str = "";
+        str += info.permissions;
+        str += " ";
+        str += std::to_string(info.link);
+        str += " ";
+        str += std::to_string(info.size);
+        str += "   ";
+        str += info.dateModified;
+        str += " ";
+
+
+        return str;
     }
 
 }
