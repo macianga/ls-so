@@ -9,7 +9,7 @@ int main(int argc, const char *argv[])
 
     l.parseArguments(argc, argv);
     //const char* x = "/home/macianga/Desktop/polecenie_ls/ls.cpp";
-
+    
     l._ls();
     return 0;
 }

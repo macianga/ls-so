@@ -1,0 +1,1 @@
+g++ ls.cpp fileInfo.h List.cpp List.h -o ls
