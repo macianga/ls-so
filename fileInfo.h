@@ -98,7 +98,7 @@ namespace fileInfoFunctions
 
         fileInfo info;
         struct stat attr;
-        printf("%s \n", real_path.c_str());
+        //printf("%s \n", real_path.c_str());
         stat(real_path.c_str(), &attr);
         info.dateModified = getFileCreationTime(real_path.c_str());
         info.fileName = filename;
