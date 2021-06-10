@@ -16,7 +16,6 @@ struct fileInfo
     std::string fileName;
 };
 
-
 namespace fileInfoFunctions
 {
 
@@ -91,56 +90,79 @@ namespace fileInfoFunctions
 
     fileInfo getFileInfo(const char *path, std::string filename)
     {
+        std::string real_path = path;
+        if(real_path[0] == '.'){
+            real_path += "/";
+        }
+        real_path += filename;
+
         fileInfo info;
         struct stat attr;
-        stat(path, &attr);
-        info.dateModified = getFileCreationTime(path);
+        printf("%s \n", real_path.c_str());
+        stat(real_path.c_str(), &attr);
+        info.dateModified = getFileCreationTime(real_path.c_str());
         info.fileName = filename;
-        info.groupOwner = getFileGroup(path);
-        info.owner = getFileOwner(path);
-        info.permissions = getFilePermissions(path);
+        info.groupOwner = getFileGroup(real_path.c_str());
+        info.owner = getFileOwner(real_path.c_str());
+        info.permissions = getFilePermissions(real_path.c_str());
         info.size = attr.st_size;
-        //TODO size is always the same
 
         return info;
     }
 
-
-    std::string fileInfo_toString(fileInfo info)
+    long int getFileSize(char file_name[])
     {
-        std::string str = "";
-        str += info.permissions;
-        str += " ";
-        str += std::to_string(info.link);
-        str += " ";
-        str += info.owner;
-        str += " ";
-        str += info.groupOwner;
-        str += " ";
-        str += std::to_string(info.size);
-        str += "   ";
-        str += info.dateModified;
-        str += " ";
+        // opening the file in read mode
+        FILE *fp = fopen(file_name, "r");
 
+        // checking if the file exist or not
+        if (fp == NULL)
+        {
+            printf("File Not Found!\n");
+            return -1;
+        }
 
-        return str;
+        fseek(fp, 0L, SEEK_END);
+
+        // calculating the size of the file
+        long int res = ftell(fp);
+
+        // closing the file
+        fclose(fp);
+        return res;
     }
 
+        std::string fileInfo_toString(fileInfo info)
+        {
+            std::string str = "";
+            str += info.permissions;
+            str += " ";
+            str += std::to_string(info.link);
+            str += " ";
+            str += info.owner;
+            str += " ";
+            str += info.groupOwner;
+            str += " ";
+            str += std::to_string(info.size);
+            str += "   ";
+            str += info.dateModified;
+            str += " ";
+
+            return str;
+        }
 
         std::string fileInfo_toString_noOwner(fileInfo info)
-    {
-        std::string str = "";
-        str += info.permissions;
-        str += " ";
-        str += std::to_string(info.link);
-        str += " ";
-        str += std::to_string(info.size);
-        str += "   ";
-        str += info.dateModified;
-        str += " ";
+        {
+            std::string str = "";
+            str += info.permissions;
+            str += " ";
+            str += std::to_string(info.link);
+            str += " ";
+            str += std::to_string(info.size);
+            str += "   ";
+            str += info.dateModified;
+            str += " ";
 
-
-        return str;
+            return str;
+        }
     }
-
-}
