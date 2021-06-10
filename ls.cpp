@@ -1,8 +1,6 @@
 #include "List.h"
 
-
 //sets all except filename
-
 int main(int argc, const char *argv[])
 {
     List l;
